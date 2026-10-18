@@ -31,6 +31,15 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify pinned upload CLI on Windows
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          npx --yes --package=@azure/static-web-apps-cli@2.0.10 swa deploy --help
+          if ($LASTEXITCODE -ne 0) { throw 'Pinned SWA CLI installation/startup failed' }
       - name: Offline Angular uploader checks
         shell: pwsh
         run: ./tests/Test-PublishWeb.ps1

@@ -45,7 +45,10 @@ can produce a different generated hostname; read the new output each time.
 ## 1. Prepare the local checkout
 
 Use PowerShell 7.2+, Azure CLI, Terraform 1.16.5, and Node.js 22.12+ with npm
-(use a version supported by the Angular repository). Keep the two repositories
+(Node 22 is used for the Windows upload CLI check). Linux uploads can also need
+the SWA CLI's native keychain build prerequisites, including `pkg-config` and
+`libsecret-1-dev`; `-BuildOnly` does not install the upload CLI.
+Keep the two repositories
 as separate checkouts, for example:
 
 ```text
@@ -260,5 +263,6 @@ pwsh -NoProfile -File .\tests\Test-PublishWeb.ps1
 
 Run these in a separate check-only checkout if you have initialized the real
 backend already. CI uses a fresh checkout, mocked Terraform providers, and
-offline uploader tests on Linux and Windows. These checks verify configuration
-and failure handling; the Azure/browser acceptance checks remain manual.
+offline uploader tests on Linux and Windows. Windows CI also installs the pinned
+SWA CLI and checks its deployment command. These checks verify configuration,
+tool startup and failure handling; the Azure/browser acceptance checks remain manual.
