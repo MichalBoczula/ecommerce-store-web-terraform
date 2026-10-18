@@ -1,0 +1,3 @@
+storage_account_name = "stecomtfstatemb261011"
+container_name       = "tfstate"
+key                  = "web/development.terraform.tfstate"

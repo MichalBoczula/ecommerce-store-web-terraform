@@ -1,0 +1,36 @@
+name: Terraform checks
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.16.5
+          terraform_wrapper: false
+      - run: terraform init -backend=false -input=false -lockfile=readonly
+      - run: terraform fmt -check -recursive
+      - run: terraform validate
+      - run: terraform test -no-color
+
+  uploader:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Offline Angular uploader checks
+        shell: pwsh
+        run: ./tests/Test-PublishWeb.ps1
