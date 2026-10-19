@@ -1,0 +1,10 @@
+environment = "dev"
+location    = "westeurope"
+
+# Supply subscription_id through TF_VAR_subscription_id.
+# Leave bff_backend unset for the first hosting deployment.
+# Later, after the BFF implements /api and its ACA ingress is reachable by SWA:
+# bff_backend = {
+#   resource_id = "/subscriptions/<your-subscription-uuid>/resourceGroups/rg-ecommercestore-bff-dev/providers/Microsoft.App/containerApps/ca-ecommercestore-bff-dev"
+#   region      = "northeurope"
+# }
